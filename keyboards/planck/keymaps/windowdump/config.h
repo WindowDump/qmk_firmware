@@ -1,0 +1,53 @@
+#pragma once
+
+#ifdef AUDIO_ENABLE
+    #define STARTUP_SONG SONG(PLANCK_SOUND)
+    // #define STARTUP_SONG SONG(NO_SOUND)
+#endif
+
+/*
+ * MIDI options
+ */
+
+/* Prevent use of disabled MIDI features in the keymap */
+//#define MIDI_ENABLE_STRICT 1
+
+/* enable basic MIDI features:
+   - MIDI notes can be sent when in Music mode is on
+*/
+
+#define MIDI_BASIC
+
+/* enable advanced MIDI features:
+   - MIDI notes can be added to the keymap
+   - Octave shift and transpose
+   - Virtual sustain, portamento, and modulation wheel
+   - etc.
+*/
+//#define MIDI_ADVANCED
+
+/* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
+//#define MIDI_TONE_KEYCODE_OCTAVES 2
+
+// Most tactile encoders have detents every 4 stages
+#define ENCODER_RESOLUTION 4
+
+// Homerow Mods
+#define TAPPING_TERM 200
+#define TAPPING_TOGGLE 2
+#define TAPPING_TERM_PER_KEY
+#define IGNORE_MOD_TAP_INTERRUPT
+#define TAPPING_FORCE_HOLD
+#undef  PERMISSIVE_HOLD
+#define PERMISSIVE_HOLD_PER_KEY
+
+#define MOUSEKEY_DELAY 25
+#define MOUSEKEY_INTERVAL 10
+#define MOUSEKEY_MAX_SPEED 5
+#define MOUSEKEY_TIME_TO_MAX 40
+#define MOUSEKEY_WHEEL_MAX_SPEED 4
+
+// Ricing
+#define USB_POLLING_INTERVAL_MS 2
+#define QMK_KEYS_PER_SCAN 4
+#define AUDIO_CLICKY

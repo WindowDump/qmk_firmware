@@ -1,0 +1,5 @@
+LTO_ENABLE = no
+MOUSEKEY_ENABLE = yes
+NKRO_ENABLE = yes
+AUDIO_ENABLE = yes
+SRC += muse.c

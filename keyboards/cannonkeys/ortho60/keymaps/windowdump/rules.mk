@@ -1,0 +1,5 @@
+AUTO_SHIFT_ENABLE = yes      # Auto Shift
+
+LINK_TIME_OPTIMIZATION_ENABLE = yes
+CONSOLE_ENABLE = no
+DFU_ARGS = -d 1eaf:0003 -a 2

@@ -23,5 +23,6 @@
         "editor.trimAutoWhitespace": false,
         "files.trimTrailingWhitespace": false
     },
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "editor.tabSize": 2
 }
