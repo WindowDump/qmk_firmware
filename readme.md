@@ -1,37 +1,35 @@
 # Quantum Mechanical Keyboard Firmware
 
-[![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
-[![Build Status](https://travis-ci.org/qmk/qmk_firmware.svg?branch=master)](https://travis-ci.org/qmk/qmk_firmware)
-[![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
-[![Docs Status](https://img.shields.io/badge/docs-ready-orange.svg)](https://docs.qmk.fm)
-[![GitHub contributors](https://img.shields.io/github/contributors/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/pulse/monthly)
-[![GitHub forks](https://img.shields.io/github/forks/qmk/qmk_firmware.svg?style=social&label=Fork)](https://github.com/qmk/qmk_firmware/)
+This is a fork of the official QMK firmware. For documentation and build information, please visit [the main GitHub repository](https://github.com/qmk/qmk_firmware/), the official website [qmk.fm](https://qmk.fm), or [see the official documentation on docs.qmk.fm](https://docs.qmk.fm).
 
-This is a keyboard firmware based on the [tmk\_keyboard firmware](https://github.com/tmk/tmk_keyboard) with some useful features for Atmel AVR and ARM controllers, and more specifically, the [OLKB product line](https://olkb.com), the [ErgoDox EZ](https://ergodox-ez.com) keyboard, and the [Clueboard product line](https://clueboard.co).
+# My Keymaps
 
-## Documentation
+This is what you're actually here for.
 
-* [See the official documentation on docs.qmk.fm](https://docs.qmk.fm)
+## Lily58 Pro (Mystic Mech Spec) "Lily ~~White~~ Black"
 
-The docs are powered by [Docsify](https://docsify.js.org/) and hosted on [GitHub](/docs/). They are also viewable offline; see [Previewing the Documentation](https://docs.qmk.fm/#/contributing?id=previewing-the-documentation) for more details.
+``lily58/rev1:dumpspec``
 
-You can request changes by making a fork and opening a [pull request](https://github.com/qmk/qmk_firmware/pulls), or by clicking the "Edit this page" link at the bottom of any page.
+Comes with two OLED screens and a rotary encoder on the left half. I did not get the encoder talking over TRRS yet. I also put in choc sockets and two Elite-C's because I am bad at spending money. Get standoffs ahead of time if you plan to do this.
 
-## Supported Keyboards
+Very heavily based on my Iris keymap, since the two are almost the same layout. I don't know what to do with the extra keys. I made this fork because the PR to update the OLED to the new API hadn't been pulled and I want to display dumb images on my OLED's to impress people that don't know the difference between Gateron and Kailh.
 
-* [Planck](/keyboards/planck/)
-* [Preonic](/keyboards/preonic/)
-* [ErgoDox EZ](/keyboards/ergodox_ez/)
-* [Clueboard](/keyboards/clueboard/)
-* [Cluepad](/keyboards/clueboard/17/)
-* [Atreus](/keyboards/atreus/)
+This keyboard is Reddit Famous. Spin the encoder for updoots, my dude.
 
-The project also includes community support for [lots of other keyboards](/keyboards/).
+## Iris Rev. 4 (Dual Encoders) "Steel Iris"
 
-## Maintainers
+``keebio/iris/rev4:dumpspec``
 
-QMK is developed and maintained by Jack Humbert of OLKB with contributions from the community, and of course, [Hasu](https://github.com/tmk). The OLKB product firmwares are maintained by [Jack Humbert](https://github.com/jackhumbert), the Ergodox EZ by [ZSA Technology Labs](https://github.com/zsa), the Clueboard by [Zach White](https://github.com/skullydazed), and the Atreus by [Phil Hagelberg](https://github.com/technomancy).
+Taking inspiration from the default keymap and my Ortho60 keymap, I found a wonderful balance that let me put the matthewrobo nav cluster in an easy to reach position along with a numpad where I needed it, and I hacked in another layer for STG's [because some drunk Japanese dude didn't feel like letting me remap keys](https://twitter.com/zun_code) and I didn't want to make an AHK script. I had trouble trying to figure out what to do with the rotary encoders, but they look cool.
 
-## Official Website
+## Ortho60 (Full Grid) "Immortal Smoke"
 
-[qmk.fm](https://qmk.fm) is the official website of QMK, where you can find links to this page, the documentation, and the keyboards supported by QMK.
+``cannonkeys/ortho60:dumpspec``
+
+Tweaked the default keymap somewhat to add in the matthewrobo nav cluster on Ctrl and some other things I'm forgetting at the moment. Non-split ortho hurts my wrists. Big thing is putting backspace on left outer thumb key, and a GAMER mode to overwrite it.
+
+## DZ65RGB "Ordinary Keyboard"
+
+``dztech/dz65rgb:dumpspec``
+
+Very heavily based on the awesome ``matthewrobo`` keymap which has all kinds of cool LED effects for active layers and adjusting things on the fly. Highlights are the nav cluster on Caps Lock, autoshift, and a Colemak layer so I can flex on Reddit. I did a few tweaks here and there to get used to QMK.
