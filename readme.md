@@ -6,13 +6,17 @@ This is a fork of the official QMK firmware. For documentation and build informa
 
 This is what you're actually here for.
 
-## Lily58 Pro (Mystic Mech Spec) "Lily ~~White~~ Black"
+## Lily58 Pro (Mystic Mech Spec) "Lily White"
 
-``lily58/rev1:dumpspec``
+``lily58:dumpspec``
 
-Comes with two OLED screens and a rotary encoder on the left half. I did not get the encoder talking over TRRS yet. I also put in choc sockets and two Elite-C's because I am bad at spending money. Get standoffs ahead of time if you plan to do this.
+Comes with two OLED screens and a rotary encoder on the left half. I did not get the encoder talking over TRRS yet. I also put in choc sockets and two Elite-C's because I am bad at spending money. Get standoffs in varrying sizes ahead of time if you plan to do this.
 
 Very heavily based on my Iris keymap, since the two are almost the same layout. I don't know what to do with the extra keys. I made this fork because the PR to update the OLED to the new API hadn't been pulled and I want to display dumb images on my OLED's to impress people that don't know the difference between Gateron and Kailh.
+
+I've slammed in the code to make this use the new common split keyboard code. Currently trying to jam in custom rendering code that doesn't break. It's surprisingly hard and I don't know why. Please, oled_write_raw_P, don't lock up the display.
+
+The unofficial keyboard of Phanasmagoria Netplay. PoFV 2020.
 
 This keyboard is Reddit Famous. Spin the encoder for updoots, my dude.
 

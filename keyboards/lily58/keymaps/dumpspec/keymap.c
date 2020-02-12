@@ -1,4 +1,4 @@
-#include QMK_KEYBOARD_H
+ #include QMK_KEYBOARD_H
 
 #ifdef PROTOCOL_LUFA
   #include "lufa.h"
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
     KC_LCTRL, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
     KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,    KC_MUTE,  KC_END,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT, \
-                               KC_PGUP, KC_LALT, KC_LOWR, KC_BSPC,  KC_SPC,  KC_RASE, KC_LGUI, KC_PGDN \
+                            C(KC_PGUP), KC_LALT, KC_LOWR, KC_BSPC,  KC_SPC,  KC_RASE, KC_LGUI, C(KC_PGDN) \
 ),
 
 [_COLEMAK] = LAYOUT( \
@@ -95,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______,                    _______, _______, KC_UP,   _______, _______, _______, \
     _______, KC_LCTL, KC_LSFT, KC_Z,    KC_X,    KC_C,                       _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, \
     _______, _______, _______, _______, _______, _______, _______,  TG_TOHO, _______, _______, _______, _______, _______, _______, \
-                               _______, _______, _______, _______,  _______, _______, _______, _______ \
+                               _______, _______, _______, KC_X,     _______, _______, _______, _______ \
 ),
 
 [_LOWER] = LAYOUT( \
@@ -122,18 +122,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                _______, _______, V_V_V_V, _______,  _______, V_V_V_V, _______, _______ \
 )
 };
-
-// 'auto_shift_off', 32x32px
-// static const char PROGMEM auto_shift_off[] = {
-// 	0x1f, 0xff, 0xff, 0xf8, 0x3f, 0xff, 0xff, 0xfc, 0x70, 0x00, 0x00, 0x0e, 0xe0, 0x00, 0x00, 0x07,
-// 	0xc0, 0x00, 0x00, 0x03, 0xc0, 0x01, 0xc0, 0x03, 0xc0, 0x03, 0xc0, 0x03, 0xc0, 0x03, 0xc0, 0x03,
-// 	0xc0, 0x07, 0xe0, 0x03, 0xc0, 0x07, 0xe0, 0x03, 0xc0, 0x0f, 0xf0, 0x03, 0xc0, 0x0c, 0xf0, 0x03,
-// 	0xc0, 0x0c, 0xf0, 0x03, 0xc0, 0x18, 0xf8, 0x03, 0xc0, 0x18, 0x78, 0x03, 0xc0, 0x38, 0x7c, 0x03,
-// 	0xc0, 0x30, 0x7c, 0x03, 0xc0, 0x7f, 0xfc, 0x03, 0xc0, 0x7f, 0xfe, 0x03, 0xc0, 0x60, 0x1e, 0x03,
-// 	0xc0, 0xe0, 0x1f, 0x03, 0xc0, 0xc0, 0x1f, 0x03, 0xc1, 0xc0, 0x0f, 0x03, 0xc1, 0xc0, 0x0f, 0x83,
-// 	0xc3, 0x80, 0x0f, 0x83, 0xc3, 0x80, 0x07, 0xc3, 0xc0, 0x00, 0x00, 0x03, 0xc0, 0x00, 0x00, 0x03,
-// 	0xe0, 0x00, 0x00, 0x07, 0x70, 0x00, 0x00, 0x0e, 0x3f, 0xff, 0xff, 0xfc, 0x1f, 0xff, 0xff, 0xf8
-// };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -173,57 +161,61 @@ void matrix_scan_user(void) {
 //SSD1306 OLED update loop, make sure to enable OLED_DRIVER_ENABLE=yes in rules.mk
 #ifdef OLED_DRIVER_ENABLE
 
+static unsigned char skipped_lines;
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_keyboard_master())
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-  return rotation;
+    if (!is_keyboard_master())
+        return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+    return OLED_ROTATION_270;
+    // return rotation;
 }
 
-char autoshift_state_str[24];
+char autoshift_state_str[11];
 
-const char *read_autoshift_state(void) {
+void write_autoshift_state(void) {
     if (get_autoshift_state()) {
-        snprintf(autoshift_state_str, sizeof(autoshift_state_str), "Auto Shift On");
+        snprintf(autoshift_state_str, sizeof(autoshift_state_str), "Auto Shift");
+        oled_write_ln(autoshift_state_str, false);
     } else {
-        snprintf(autoshift_state_str, sizeof(autoshift_state_str), "Auto Shift Off");
+        skipped_lines += 3;
     }
-
-    return autoshift_state_str;
 }
 
-char layer_state_str[24];
+char layer_state_str[6];
 
 // When add source files to SRC in rules.mk, you can use functions.
-const char *read_layer_state(void) {
+void write_layer_state(void) {
     if (layer_state & L_ADJUST) {
-        snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Adjust");
+        snprintf(layer_state_str, sizeof(layer_state_str), "Adj. ");
+        oled_write_ln(layer_state_str, false);
     } else if (layer_state & L_RAISE) {
-        snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Raise");
+        snprintf(layer_state_str, sizeof(layer_state_str), "Raise");
+        oled_write_ln(layer_state_str, false);
     } else if (layer_state & L_LOWER) {
-        snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Lower");
+        snprintf(layer_state_str, sizeof(layer_state_str), "Lower");
+        oled_write_ln(layer_state_str, false);
     } else {
-        snprintf(layer_state_str, sizeof(layer_state_str), " ");
+        skipped_lines++;
     }
-
-    return layer_state_str;
 }
 
-char layer_base_str[24];
+char layer_base_str[11];
 
-const char *read_base_state(void) {
+void write_base_state(void) {
+    skipped_lines++;
     if (layer_state & L_TOUHOU) {
-        snprintf(layer_base_str, sizeof(layer_base_str), "Base: Touhou");
+        snprintf(layer_base_str, sizeof(layer_base_str), "2hu  ");
     } else if (layer_state & L_GAMER) {
-        snprintf(layer_base_str, sizeof(layer_base_str), "Base: GAMER");
+        snprintf(layer_base_str, sizeof(layer_base_str), "GAMER");
     } else if (layer_state & L_COLEMAK) {
-        snprintf(layer_base_str, sizeof(layer_base_str), "Base: Colemak DHm");
+        snprintf(layer_base_str, sizeof(layer_base_str), "ClmakDHm  ");
+        skipped_lines--;
     } else {
-        snprintf(layer_base_str, sizeof(layer_base_str), "Base: QWERTY");
+        snprintf(layer_base_str, sizeof(layer_base_str), "QWERT");
     }
 
-    return layer_base_str;
+    oled_write_ln(layer_base_str, false);
 }
-
 const char *read_logo(void);
 void set_keylog(uint16_t keycode, keyrecord_t *record);
 // const char *read_keylog(void);
@@ -234,15 +226,43 @@ void set_keylog(uint16_t keycode, keyrecord_t *record);
 // void set_timelog(void);
 // const char *read_timelog(void);
 
+// Layer mode icons are 32 x 32 pixels, 0 padding at start and end to avoid display errors
+// static const char PROGMEM auto_shift_off[] = {
+//     0, 248, 252, 14, 7, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 195, 227, 227, 227, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 7, 14, 252, 248, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 128, 224, 252, 31, 7, 7, 63, 255, 255, 252, 224, 128, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 192, 240, 254, 31, 7, 6, 6, 6, 6, 6, 7, 7, 63, 255, 255, 252, 240, 128, 0, 0, 0, 0, 0, 255, 255, 31, 63, 112, 224, 192, 192, 195, 195, 195, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 193, 195, 195, 195, 195, 194, 192, 192, 224, 112, 63, 31, 0
+// };
+
+// static const char PROGMEM auto_shift_on[] = {
+//     0, 248, 252, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 63, 31, 31, 31, 255, 255, 255, 255, 127, 191, 223, 191, 127, 255, 255, 254, 252, 248, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127, 31, 3, 224, 248, 248, 192, 0, 0, 3, 29, 124, 253, 1, 255, 1, 253, 252, 253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 63, 15, 1, 224, 248, 249, 249, 249, 249, 249, 248, 248, 192, 0, 0, 3, 14, 127, 192, 255, 255, 255, 255, 255, 255, 31, 63, 127, 255, 255, 255, 252, 252, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 254, 252, 252, 252, 252, 253, 255, 255, 255, 127, 63, 31, 0
+// };
+
+// static const char PROGMEM touhou[] = {
+//     0, 248, 252, 14, 7, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 7, 14, 252, 248, 255, 255, 0, 0, 4, 244, 244, 84, 84, 254, 254, 84, 84, 244, 244, 4, 0, 8, 8, 8, 8, 248, 254, 78, 72, 72, 200, 200, 0, 0, 255, 255, 255, 255, 0, 0, 16, 25, 13, 7, 3, 31, 31, 3, 7, 13, 25, 16, 0, 16, 24, 12, 7, 3, 0, 16, 16, 30, 15, 1, 0, 0, 255, 255, 31, 63, 112, 224, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192, 224, 112, 63, 31, 0
+// };
+
 // OLED display fun stuff
 void oled_task_user(void) {
-  if (is_keyboard_master()) {
-    oled_write_ln(read_autoshift_state(), false);
-    oled_write_ln(read_base_state(), false);
-    oled_write_ln(read_layer_state(), false);
-  } else {
-    oled_write(read_logo(), false);
-  }
+    if (is_keyboard_master()) {
+        // oled_write_raw_P doesn't care about the cursor position
+        // oled_write_raw_P(auto_shift_off, sizeof(auto_shift_off));
+        // oled_set_cursor(0, 32);
+        // oled_write_raw_P_position(touhou, sizeof(touhou), 0);
+        // oled_write_raw_P_position(auto_shift_off, sizeof(auto_shift_off), 128);
+        // oled_write_raw_P_position(auto_shift_on, 130, 256);
+        // for (uint8_t i = 0; i < OLED_DISPLAY_WIDTH; i++) {
+        //     oled_write_byte(i, 0, touhou[i]);
+        // }
+        // oled_write_raw_P(touhou, sizeof(touhou));
+        // oled_set_cursor(0, 4);
+        skipped_lines = 0;
+        write_autoshift_state();
+        write_base_state();
+        write_layer_state();
+        for (uint8_t i = 0; i < skipped_lines; i++) {
+            oled_advance_page(true);
+        }
+    } else {
+        oled_write(read_logo(), false);
+    }
 }
 #endif // OLED_DRIVER_ENABLE
 
@@ -251,10 +271,10 @@ void encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         switch (biton32(layer_state)) {
             case _LOWER:
-                clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
+                clockwise ? tap_code(KC_PGDN) : tap_code(KC_PGUP);
                 break;
             case _RAISE:
-                clockwise ? tap_code(KC_PGDN) : tap_code(KC_PGUP);
+                clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
                 break;
             default:
                 if (!is_alt_tab_active) {
