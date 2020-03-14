@@ -17,8 +17,10 @@
 
 #define KC_ KC_TRNS
 
-#define KC_LOWR MO(_LOWER)
-#define KC_RASE MO(_RAISE)
+#define KC_LOWR TT(_LOWER)
+#define KC_RASE TT(_RAISE)
+#define KC_LOTG TG(_LOWER)
+#define KC_RATG TG(_RAISE)
 #define KC_ADJS MO(_ADJUST)
 #define KC_V_V_ KC_TRNS
 #define V_V_V_V KC_TRNS
@@ -39,6 +41,9 @@
 #define KC_FBRN A(S(KC_DOWN))
 #define KC_FBPL A(S(KC_ENT))
 
+bool is_alt_tab_active = false;
+uint16_t alt_tab_timer = 0;
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_QWERTY] = LAYOUT_kc(
@@ -50,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
      LCTL, A  , S  , D  , F  , G  ,                H  , J  , K  , L  ,SCLN,QUOT,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-     LSFT, Z  , X  , C  , V  , B  ,MUTE,     PSCR, N  , M  ,COMM, DOT,SLSH, ENT,
+     LSFT, Z  , X  , C  , V  , B  ,MUTE,     ASTG, N  , M  ,COMM, DOT,SLSH, ENT,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                       LALT, LOWR, BSPC,        SPC, RASE, LGUI
   //                  `----+----+----'        `----+----+----'
@@ -112,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          , F1 , F2 , F3 , F4 , F5 ,    ,         , F6 , F7 , F8 , F9 ,F10 ,F11 ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                           ,V_V_,     ,       BSPC ,ADJS,
+                           ,LOTG,     ,       BSPC ,ADJS,
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -127,14 +132,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          ,    ,MPRV,MPLY,MNXT,MUTE,    ,         , INS, P0 ,COMM,PDOT,PPLS,PENT,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                           ,ADJS,  DEL,           , V_V_,
+                           ,ADJS,  DEL,           , RATG,
   //                  `----+----+----'        `----+----+----'
   ),
 
   [_ADJUST] = LAYOUT(
   // Rarely used but useful to have firmware setting toggles.
   //,--------+--------+--------+--------+--------+--------.                          ,--------+--------+--------+--------+--------+--------.
-      RESET  , DEBUG  , _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
+      RESET  , DEBUG  , _______, _______, _______, _______,                            KC_ASRP, _______, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------|                          |--------+--------+--------+--------+--------+--------|
       VLK_TOG, _______, _______, _______, _______, _______,                            KC_ASUP, _______, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------|                          |--------+--------+--------+--------+--------+--------|
@@ -148,6 +153,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+void matrix_scan_user(void) {
+    if (is_alt_tab_active) {
+        if (timer_elapsed(alt_tab_timer) > 750) {
+            unregister_code(KC_LALT);
+            is_alt_tab_active = false;
+        }
+    }
+}
+
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
@@ -156,13 +170,18 @@ void encoder_update_user(uint8_t index, bool clockwise) {
                 clockwise ? tap_code(KC_DOWN) : tap_code(KC_UP);
                 break;
             case _LOWER:
-                clockwise ? tap_code16(C(A(KC_DOWN))) : tap_code16(C(A(KC_UP)));
+                clockwise ? tap_code(KC_PGDN) : tap_code(KC_PGUP);
                 break;
             case _RAISE:
-                clockwise ? tap_code16(A(KC_DOWN)) : tap_code16(A(KC_UP));
+                clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
                 break;
             default:
-                clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(KC_LALT);
+                }
+                clockwise ? tap_code16(KC_TAB) : tap_code16(S(KC_TAB));
+                alt_tab_timer = timer_read();
                 break;
             // default:
             //     clockwise ? tap_code(KC_1) : tap_code(KC_2);
@@ -174,13 +193,13 @@ void encoder_update_user(uint8_t index, bool clockwise) {
                 clockwise ? tap_code(KC_RGHT) : tap_code(KC_LEFT);
                 break;
             case _LOWER:
-                clockwise ? tap_code16(C(KC_PGDN)) : tap_code16(C(KC_PGUP));
+                clockwise ? tap_code16(A(KC_DOWN)) : tap_code16(A(KC_UP));
                 break;
             case _RAISE:
-                clockwise ? tap_code(KC_PGDN) : tap_code(KC_PGUP);
+                clockwise ? tap_code16(C(A(KC_DOWN))) : tap_code16(C(A(KC_UP)));
                 break;
             default:
-                clockwise ? tap_code(KC_PGDN) : tap_code(KC_PGUP);
+                clockwise ? tap_code16(C(KC_PGDN)) : tap_code16(C(KC_PGUP));
                 break;
             // default:
             //     clockwise ? tap_code(KC_3) : tap_code(KC_4);

@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 #define EE_HANDS
 
-#define ENCODERS_PAD_A { F5 }
-#define ENCODERS_PAD_B { F4 }
+#define ENCODERS_PAD_A { F4 }
+#define ENCODERS_PAD_B { F5 }
 #define ENCODER_RESOLUTION 4
 
 #define AUTO_SHIFT_SETUP

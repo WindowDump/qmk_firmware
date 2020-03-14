@@ -23,7 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 #define EE_HANDS
 
+#define AUTO_SHIFT_SETUP
 #define AUTO_SHIFT_TIMEOUT 150
+
+#define TAPPING_TOGGLE 2
 
 #undef RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
@@ -33,14 +36,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_VAL_STEP 8
 
 // #define ENCODER_RESOLUTION 4
-#define TAP_CODE_DELAY 20
-
-#undef ENCODERS_PAD_A
-#undef ENCODERS_PAD_B
-#undef ENCODERS_PAD_A_RIGHT
-#undef ENCODERS_PAD_B_RIGHT
-
-#define ENCODERS_PAD_A { B3 }
-#define ENCODERS_PAD_B { B2 }
-#define ENCODERS_PAD_A_RIGHT { F6 }
-#define ENCODERS_PAD_B_RIGHT { F7 }
+// #define TAP_CODE_DELAY 20
