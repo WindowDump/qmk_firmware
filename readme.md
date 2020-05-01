@@ -6,6 +6,12 @@ This is a fork of the official QMK firmware. For documentation and build informa
 
 This is what you're actually here for.
 
+## Corne Choc (No OLED's)
+
+``crkbd:dumpspec``
+
+Baby's first 40% board. Desperate flailing to move all the keys to where I can get at them.
+
 ## Lily58 Pro (Mystic Mech Spec) "Lily White"
 
 ``lily58:dumpspec``

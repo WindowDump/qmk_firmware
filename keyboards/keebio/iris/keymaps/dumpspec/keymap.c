@@ -2,11 +2,12 @@
 
 #define _QWERTY 0
 #define _COLEMAK 1
-#define _GAMER 2
-#define _TOUHOU 3
-#define _LOWER 4
-#define _RAISE 5
-#define _ADJUST 6
+#define _THE1 2
+#define _GAMER 3
+#define _TOUHOU 4
+#define _LOWER 5
+#define _RAISE 6
+#define _ADJUST 7
 
 // enum custom_keycodes {
 //   QWERTY = SAFE_RANGE,
@@ -31,6 +32,7 @@
 #define LCPO_KEYS KC_LCTL, KC_TRNS, KC_BSPC
 
 #define TG_CLMK TG(_COLEMAK)
+#define TG_THE1 TG(_THE1)
 #define TG_GAME TG(_GAMER)
 #define TG_TOHO TG(_TOUHOU)
 
@@ -71,6 +73,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          , A  , R  , S  , T  , G  ,                M  , N  , E  , I  , O  ,    ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          , Z  , X  , C  , D  , V  ,    ,         , K  , H  ,    ,    ,    ,    ,
+  //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
+                           ,    ,     ,           ,     ,
+  //                  `----+----+----'        `----+----+----'
+  ),
+
+  [_THE1] = LAYOUT_kc(
+  // The spicy meme layout for placing as many bigrams next to each other as possible.
+  //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
+     ESC ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         , K  , M  , L  , U  ,SLSH,                V  , D  , R  ,QUOT, Q  ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         , A  , T  , H  , E  , DOT,                C  , S  , N  , O  , I  ,SCLN,
+  //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
+         , Z  , P  , F  , J  ,COMM,    ,         , B  , G  , W  , X  , Y  ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                            ,    ,     ,           ,     ,
   //                  `----+----+----'        `----+----+----'
@@ -145,7 +162,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                          |--------+--------+--------+--------+--------+--------|
       RGB_TOG, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI,  BL_INC,                            KC_ASTG, TG_CLMK, TG_GAME, TG_TOHO, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------.        ,--------|--------+--------+--------+--------+--------+--------|
-      BL_TOGG, RGB_RMOD,RGB_HUD, RGB_SAD, RGB_VAD,  BL_DEC, _______,          _______, KC_ASDN, _______, _______, _______, _______, _______,
+      BL_TOGG, RGB_RMOD,RGB_HUD, RGB_SAD, RGB_VAD,  BL_DEC, _______,          _______, KC_ASDN, TG_THE1, _______, _______, _______, _______,
   //`--------+--------+--------+----+---+--------+--------+--------/        \--------+--------+--------+---+----+--------+--------+--------'
                                       _______, V_V_V_V, _______,                  _______, V_V_V_V, _______
   //                                `--------+--------+--------'                `--------+--------+--------'
