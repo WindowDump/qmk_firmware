@@ -1,8 +1,10 @@
-OLED_DRIVER_ENABLE = no     # OLED display
+OLED_DRIVER_ENABLE = no
 
-AUTO_SHIFT_ENABLE = yes
+AUTO_SHIFT_ENABLE = no
 LTO_ENABLE = yes
-EXTRAKEY_ENABLE = yes       # Audio control and System control
+EXTRAKEY_ENABLE = yes
+MOUSEKEY_ENABLE = yes
+NKRO_ENABLE = yes
 
 # If you want to change the display of OLED, you need to change here
 # SRC +=  ./lib/glcdfont.c \
