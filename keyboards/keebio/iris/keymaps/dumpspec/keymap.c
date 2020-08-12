@@ -1,47 +1,75 @@
 #include QMK_KEYBOARD_H
 
-#define _QWERTY 0
-#define _COLEMAK 1
-#define _THE1 2
-#define _GAMER 3
-#define _TOUHOU 4
-#define _LOWER 5
-#define _RAISE 6
-#define _ADJUST 7
+enum iris_layers {
+  _QWERTY,
+  _QWERTY_MODS,
+  _COLEMAK,
+  _COLEMAK_MODS,
+  _RSTHD,
+  _RSTHD_MODS,
+  _GAMER,
+  _TOUHOU,
+  _LOWER,
+  _RAISE,
+  _ADJUST
+};
 
-// enum custom_keycodes {
-//   QWERTY = SAFE_RANGE,
-//   LOWER,
-//   RAISE,
-//   ADJUST,
-// };
+enum custom_keycodes {
+  KC_CLMK = SAFE_RANGE,
+  KC_RSTH,
+  KC_HMOD,
+};
 
 #define KC_ KC_TRNS
+#define V_V_V_V KC_TRNS
+#define KC_RST RESET
+#define KC_BL_S BL_STEP
 
 #define KC_LOWR TT(_LOWER)
 #define KC_RASE TT(_RAISE)
 #define KC_LOTG TG(_LOWER)
 #define KC_RATG TG(_RAISE)
 #define KC_ADJS MO(_ADJUST)
-#define KC_V_V_ KC_TRNS
-#define V_V_V_V KC_TRNS
-#define KC_RST RESET
-#define KC_BL_S BL_STEP
-#define KC_NVBS LT(_NAV, KC_BSPC)
+#define KC_LWRE LT(_LOWER, KC_E)
 
 #define LCPO_KEYS KC_LCTL, KC_TRNS, KC_BSPC
 
-#define TG_CLMK TG(_COLEMAK)
-#define TG_THE1 TG(_THE1)
 #define TG_GAME TG(_GAMER)
 #define TG_TOHO TG(_TOUHOU)
 
+// FB2K global hotkeys
 #define KC_FBVU A(S(KC_EQL))
 #define KC_FBVD A(S(KC_MINS))
 #define KC_FBNX A(S(KC_RGHT))
 #define KC_FBPR A(S(KC_LEFT))
 #define KC_FBRN A(S(KC_DOWN))
 #define KC_FBPL A(S(KC_ENT))
+
+// QWERTY Homerow Mods
+#define KC_LG_A MT(MOD_LGUI, KC_A)
+#define KC_LA_S MT(MOD_LALT, KC_S)
+#define KC_LC_D MT(MOD_LCTL, KC_D)
+#define KC_LS_F MT(MOD_LSFT, KC_F)
+#define KC_RS_J MT(MOD_RSFT, KC_J)
+#define KC_RC_K MT(MOD_RCTL, KC_K)
+#define KC_RA_L MT(MOD_RALT, KC_L)
+#define KC_RGSC MT(MOD_RGUI, KC_SCLN)
+
+// Colemak Homerow Mods
+#define KC_LA_R MT(MOD_LALT, KC_R)
+#define KC_LC_S MT(MOD_LCTL, KC_S)
+#define KC_LS_T MT(MOD_LSFT, KC_T)
+#define KC_RS_N MT(MOD_RSFT, KC_N)
+#define KC_RC_E MT(MOD_RCTL, KC_E)
+#define KC_RA_I MT(MOD_RALT, KC_I)
+#define KC_RG_O MT(MOD_RGUI, KC_O)
+
+// RSTHD Homerow Mods
+#define KC_LG_R MT(MOD_LGUI, KC_R)
+#define KC_LC_T MT(MOD_LCTL, KC_T)
+#define KC_LS_H MT(MOD_LSFT, KC_H)
+#define KC_RS_N MT(MOD_RSFT, KC_N)
+#define KC_RC_A MT(MOD_RCTL, KC_A)
 
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
@@ -53,13 +81,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
      ESC , 1  , 2  , 3  , 4  , 5  ,                6  , 7  , 8  , 9  , 0  , GRV,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     TAB , Q  , W  , E  , R  , T  ,                Y  , U  , I  , O  , P  ,BSPC,
+     TAB , Q  , W  , E  , R  , T  ,                Y  , U  , I  , O  , P  , DEL,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
      LCTL, A  , S  , D  , F  , G  ,                H  , J  , K  , L  ,SCLN,QUOT,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-     LSFT, Z  , X  , C  , V  , B  ,MUTE,     ASTG, N  , M  ,COMM, DOT,SLSH, ENT,
+     LSFT, Z  , X  , C  , V  , B  ,MUTE,     HMOD, N  , M  ,COMM, DOT,SLSH, ENT,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                       LALT, LOWR, BSPC,        SPC, RASE, LGUI
+  //                   `----+----+----'        `----+----+----'
+  ),
+
+  [_QWERTY_MODS] = LAYOUT_kc(
+  // Homerow mods for QWERTY
+  //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
+     ESC ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         ,LG_A,LA_S,LC_D,LS_F,    ,                   ,RS_J,RC_K,RA_L,RGSC,    ,
+  //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,    ,
+  //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
+                           ,    ,     ,           ,     ,
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -70,24 +113,54 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
          , Q  , W  , F  , P  , B  ,                J  , L  , U  , Y  ,SCLN,    ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         , A  , R  , S  , T  , G  ,                M  , N  , E  , I  , O  ,    ,
+         , A  , R  , S  , T  , G  ,                M  , N  , E  , I  , O  ,QUOT,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-         , Z  , X  , C  , D  , V  ,    ,         , K  , H  ,    ,    ,    ,    ,
+         , Z  , X  , C  , D  , V  ,    ,         , K  , H  ,COMM, DOT,SLSH,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                            ,    ,     ,           ,     ,
   //                  `----+----+----'        `----+----+----'
   ),
 
-  [_THE1] = LAYOUT_kc(
-  // The spicy meme layout for placing as many bigrams next to each other as possible.
+  [_COLEMAK_MODS] = LAYOUT_kc(
+  // Homerow mods for Colemak DHm
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
      ESC ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         , K  , M  , L  , U  ,SLSH,                V  , D  , R  ,QUOT, Q  ,    ,
+         ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         , A  , T  , H  , E  , DOT,                C  , S  , N  , O  , I  ,SCLN,
+         ,LG_A,LA_R,LC_S,LS_T,    ,                   ,RS_N,RC_E,RA_I,RG_O,    ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-         , Z  , P  , F  , J  ,COMM,    ,         , B  , G  , W  , X  , Y  ,    ,
+         ,    ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,    ,
+  //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
+                           ,    ,     ,           ,     ,
+  //                  `----+----+----'        `----+----+----'
+  ),
+
+  [_RSTHD] = LAYOUT_kc(
+  // It's like Maltron, but better!
+  //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
+     ESC ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         , J  , C  , Y  , F  , K  ,                Z  , L  ,COMM, U  , Q  ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         , R  , S  , T  , H  , D  ,                M  , N  , A  , I  , O  ,QUOT,
+  //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
+         ,SLSH, V  , G  , P  , B  ,    ,         , X  , W  , DOT,SCLN,MINS,    ,
+  //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
+                           ,LWRE,     ,           ,     ,
+  //                  `----+----+----'        `----+----+----'
+  ),
+
+  [_RSTHD_MODS] = LAYOUT_kc(
+  // Homerow mods for RSTHD
+  //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
+     ESC ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|              |----+----+----+----+----+----|
+         ,LG_R,LA_S,LC_T,LS_H,    ,                   ,RS_N,RC_A,RA_I,RG_O,    ,
+  //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                            ,    ,     ,           ,     ,
   //                  `----+----+----'        `----+----+----'
@@ -98,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
      ESC ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+         ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,BSPC,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
          ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
@@ -154,21 +227,76 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_ADJUST] = LAYOUT(
-  // Rarely used but useful to have firmware setting toggles.
+  // Rarely used, but useful to have setting toggles.
   //,--------+--------+--------+--------+--------+--------.                          ,--------+--------+--------+--------+--------+--------.
-      RESET  , DEBUG  , _______, _______, _______, _______,                            KC_ASRP, _______, _______, _______, _______, _______,
+      RESET  , DEBUG  , _______, _______, _______, _______,                            _______, _______, _______, _______, _______, A(KC_PSCR),
   //|--------+--------+--------+--------+--------+--------|                          |--------+--------+--------+--------+--------+--------|
-      VLK_TOG, _______, _______, _______, _______, _______,                            KC_ASUP, _______, _______, _______, _______, _______,
+      VLK_TOG, _______, _______, _______, _______, _______,                            _______, KC_RSTH, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------|                          |--------+--------+--------+--------+--------+--------|
-      RGB_TOG, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI,  BL_INC,                            KC_ASTG, TG_CLMK, TG_GAME, TG_TOHO, _______, _______,
+      RGB_TOG, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI,  BL_INC,                            KC_HMOD, KC_CLMK, TG_GAME, TG_TOHO, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------.        ,--------|--------+--------+--------+--------+--------+--------|
-      BL_TOGG, RGB_RMOD,RGB_HUD, RGB_SAD, RGB_VAD,  BL_DEC, _______,          _______, KC_ASDN, TG_THE1, _______, _______, _______, _______,
+      BL_TOGG, RGB_RMOD,RGB_HUD, RGB_SAD, RGB_VAD,  BL_DEC, _______,          _______, _______, _______, _______, _______, _______, _______,
   //`--------+--------+--------+----+---+--------+--------+--------/        \--------+--------+--------+---+----+--------+--------+--------'
                                       _______, V_V_V_V, _______,                  _______, V_V_V_V, _______
   //                                `--------+--------+--------'                `--------+--------+--------'
   )
 
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    switch (keycode) {
+      case KC_CLMK:
+        // turn off any other active typing layers first
+        layer_off(_RSTHD);
+        if (IS_LAYER_ON(_COLEMAK)) { // toggle off
+          layer_off(_COLEMAK);
+          layer_off(_COLEMAK_MODS);
+        }
+        else { // toggle on
+          if (IS_LAYER_ON(_QWERTY_MODS)) { // set homerow mods as needed
+            layer_on(_COLEMAK_MODS);
+            layer_off(_RSTHD_MODS);
+          }
+          layer_on(_COLEMAK);
+        }
+        return false;
+      case KC_RSTH:
+        // turn off any other active typing layers first
+        layer_off(_COLEMAK);
+        if (IS_LAYER_ON(_RSTHD)) { // toggle off
+          layer_off(_RSTHD);
+          layer_off(_RSTHD_MODS);
+        }
+        else { // toggle on
+          if (IS_LAYER_ON(_QWERTY_MODS)) { // set homerow mods as needed
+            layer_on(_RSTHD_MODS);
+            layer_off(_COLEMAK_MODS);
+          }
+          layer_on(_RSTHD);
+        }
+        return false;
+      case KC_HMOD:
+        if (IS_LAYER_ON(_QWERTY_MODS)) { // toggle off
+          layer_off(_QWERTY_MODS);
+          layer_off(_COLEMAK_MODS);
+          layer_off(_RSTHD_MODS);
+        }
+        else { // toggle on
+          layer_on(_QWERTY_MODS);
+          // determine current active typing layer, turn on mods for that layer
+          if (IS_LAYER_ON(_COLEMAK)) {
+            layer_on(_COLEMAK_MODS);
+          } else if (IS_LAYER_ON(_RSTHD)) {
+            layer_on(_RSTHD_MODS);
+          }
+        }
+        return false;
+    }
+  }
+
+  return true;
+}
 
 void matrix_scan_user(void) {
     if (is_alt_tab_active) {

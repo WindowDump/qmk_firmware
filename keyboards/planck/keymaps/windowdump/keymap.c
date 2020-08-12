@@ -167,8 +167,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_NAV] = LAYOUT_planck_2x2u(
-    _______, KC_PGUP, KC_HOME, KC_UP,   KC_END,  ALT_TAB, ALT_TAB, WNDW_7,  WNDW_8,  WNDW_9,  WNDW_0,  _______,
-    _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, SALTTAB, SALTTAB, WNDW_4,  WNDW_5,  WNDW_6,  _______, _______,
+    _______, KC_PGUP, KC_HOME, KC_UP,   KC_END,  SALTTAB, SALTTAB, WNDW_7,  WNDW_8,  WNDW_9,  WNDW_0,  _______,
+    _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, ALT_TAB, ALT_TAB, WNDW_4,  WNDW_5,  WNDW_6,  _______, _______,
     _______, _______, C(KC_PGUP), _______, C(KC_PGDN), _______, _______, WNDW_1,  WNDW_2,  WNDW_3,  _______, _______,
     _______, _______, _______, _______,     _______,          V_V_V_V,      _______, _______, _______, _______
 ),
@@ -420,6 +420,7 @@ void matrix_scan_user(void) {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        // Homerow mods
         case MT(MOD_LGUI, KC_A):
         case MT(MOD_LALT, KC_S):
         case MT(MOD_LCTL, KC_D):
@@ -434,14 +435,20 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case MT(MOD_LGUI, KC_R):
         case MT(MOD_LCTL, KC_T):
         case MT(MOD_RCTL, KC_A):
-          return 250;
+          return 175;
+        // Shift
         case MT(MOD_LSFT, KC_F):
         case MT(MOD_RSFT, KC_J):
         case MT(MOD_LSFT, KC_T):
         case MT(MOD_RSFT, KC_N):
         case MT(MOD_LSFT, KC_H):
+          return 125;
+        // LT
         case MT(MOD_LCTL, KC_TAB):
-          return 150;
+        case LT(_NUMBERS, KC_BSPC):
+        case LT(_NAV, KC_SPC):
+        case LT(_LOWER, KC_E):
+          return 175;
         default:
           return TAPPING_TERM;
     }
