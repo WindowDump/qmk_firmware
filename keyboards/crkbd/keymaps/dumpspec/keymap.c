@@ -297,39 +297,39 @@ void matrix_scan_user(void) {
 }
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        // Homerow mods
-        case MT(MOD_LGUI, KC_A):
-        case MT(MOD_LALT, KC_S):
-        case MT(MOD_LCTL, KC_D):
-        case MT(MOD_RCTL, KC_K):
-        case MT(MOD_RALT, KC_L):
-        case MT(MOD_RGUI, KC_SCLN):
-        case MT(MOD_LALT, KC_R):
-        case MT(MOD_LCTL, KC_S):
-        case MT(MOD_RCTL, KC_E):
-        case MT(MOD_RALT, KC_I):
-        case MT(MOD_RGUI, KC_O):
-        case MT(MOD_LGUI, KC_R):
-        case MT(MOD_LCTL, KC_T):
-        case MT(MOD_RCTL, KC_A):
-          return 175;
-        // Shift
-        case MT(MOD_LSFT, KC_F):
-        case MT(MOD_RSFT, KC_J):
-        case MT(MOD_LSFT, KC_T):
-        case MT(MOD_RSFT, KC_N):
-        case MT(MOD_LSFT, KC_H):
-          return 125;
-        // LT
-        case MT(MOD_LCTL, KC_TAB):
-        case LT(_NUMBERS, KC_BSPC):
-        case LT(_NAV, KC_SPC):
-        case LT(_LOWER, KC_E):
-          return 175;
-        default:
-          return TAPPING_TERM;
-    }
+  switch (keycode) {
+    // Homerow mods
+    case MT(MOD_LGUI, KC_A):
+    case MT(MOD_LALT, KC_S):
+    case MT(MOD_LCTL, KC_D):
+    case MT(MOD_RCTL, KC_K):
+    case MT(MOD_RALT, KC_L):
+    case MT(MOD_RGUI, KC_SCLN):
+    case MT(MOD_LALT, KC_R):
+    case MT(MOD_LCTL, KC_S):
+    case MT(MOD_RCTL, KC_E):
+    case MT(MOD_RALT, KC_I):
+    case MT(MOD_RGUI, KC_O):
+    case MT(MOD_LGUI, KC_R):
+    case MT(MOD_LCTL, KC_T):
+    case MT(MOD_RCTL, KC_A):
+      return 175;
+    // Shift
+    case MT(MOD_LSFT, KC_F):
+    case MT(MOD_RSFT, KC_J):
+    case MT(MOD_LSFT, KC_T):
+    case MT(MOD_RSFT, KC_N):
+    case MT(MOD_LSFT, KC_H):
+      return 125;
+    // LT
+    case MT(MOD_LCTL, KC_TAB):
+    case LT(_NUMBERS, KC_BSPC):
+    case LT(_NAV, KC_SPC):
+    case LT(_LOWER, KC_E):
+      return 175;
+    default:
+      return TAPPING_TERM;
+  }
 }
 
 
@@ -337,6 +337,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     // Window switching macro, only available when NAV layer is active.
     if (keycode >= WNDW_1 && keycode <= WNDW_0) {
+      if (is_alt_tab_active) {
+        is_alt_tab_active = false;
+        unregister_code(KC_LALT);
+      }
       if (!is_win_switch_active) {
         is_win_switch_active = true;
         register_code(KC_LGUI);
@@ -379,9 +383,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       // Super Alt-Tab
       case ALT_TAB:
       case SALTTAB:
+        if (is_win_switch_active) {
+          is_win_switch_active = false;
+          unregister_code(KC_LGUI);
+        }
         if (!is_alt_tab_active) {
-            is_alt_tab_active = true;
-            register_code(KC_LALT);
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
         }
         keycode == ALT_TAB ? tap_code16(KC_TAB) : tap_code16(S(KC_TAB));
         return false;

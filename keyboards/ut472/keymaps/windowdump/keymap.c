@@ -129,14 +129,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______,     _______,      _______, _______, _______, _______, _______
 ),
 
-[_GAMER] = LAYOUT(
+[_GAMER] = LAYOUT( // I installed a rootkit and all I got was this lousy layer.
   KC_TAB,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BSPC,
   KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, KC_GLWR,     KC_SPC,       _______, _______, _______, _______, MO(_NAV)
 ),
 
-[_GAMER2] = LAYOUT( // I installed a rootkit and all I got was this lousy layer.
+[_GAMER2] = LAYOUT(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_SPC,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -310,30 +310,30 @@ void matrix_scan_user(void) {
 }
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case MT(MOD_LGUI, KC_A):
-        case MT(MOD_LALT, KC_S):
-        case MT(MOD_LCTL, KC_D):
-        case MT(MOD_RCTL, KC_K):
-        case MT(MOD_RALT, KC_L):
-        case MT(MOD_RGUI, KC_SCLN):
-        case MT(MOD_LALT, KC_R):
-        case MT(MOD_LCTL, KC_S):
-        case MT(MOD_RCTL, KC_E):
-        case MT(MOD_RALT, KC_I):
-        case MT(MOD_RGUI, KC_O):
-        case MT(MOD_LGUI, KC_R):
-        case MT(MOD_LCTL, KC_T):
-        case MT(MOD_RCTL, KC_A):
-          return 250;
-        case MT(MOD_LSFT, KC_F):
-        case MT(MOD_RSFT, KC_J):
-        case MT(MOD_LSFT, KC_T):
-        case MT(MOD_RSFT, KC_N):
-        case MT(MOD_LSFT, KC_H):
-        case MT(MOD_LCTL, KC_TAB):
-          return 150;
-        default:
-          return TAPPING_TERM;
-    }
+  switch (keycode) {
+    case MT(MOD_LGUI, KC_A):
+    case MT(MOD_LALT, KC_S):
+    case MT(MOD_LCTL, KC_D):
+    case MT(MOD_RCTL, KC_K):
+    case MT(MOD_RALT, KC_L):
+    case MT(MOD_RGUI, KC_SCLN):
+    case MT(MOD_LALT, KC_R):
+    case MT(MOD_LCTL, KC_S):
+    case MT(MOD_RCTL, KC_E):
+    case MT(MOD_RALT, KC_I):
+    case MT(MOD_RGUI, KC_O):
+    case MT(MOD_LGUI, KC_R):
+    case MT(MOD_LCTL, KC_T):
+    case MT(MOD_RCTL, KC_A):
+      return 175;
+    case MT(MOD_LSFT, KC_F):
+    case MT(MOD_RSFT, KC_J):
+    case MT(MOD_LSFT, KC_T):
+    case MT(MOD_RSFT, KC_N):
+    case MT(MOD_LSFT, KC_H):
+    case MT(MOD_LCTL, KC_TAB):
+      return 125;
+    default:
+      return TAPPING_TERM;
+  }
 }
