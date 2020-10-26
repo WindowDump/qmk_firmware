@@ -13,31 +13,34 @@ extern rgblight_config_t rgblight_config;
 
 extern uint8_t is_master;
 
-#define _QWERTY 0
-#define _COLEMAK 1
-#define _GAMER 2
-#define _TOUHOU 3
-#define _LOWER 4
-#define _RAISE 5
-#define _ADJUST 6
+enum iris_layers {
+  _QWERTY,
+  _QWERTY_MODS,
+  _COLEMAK,
+  _COLEMAK_MODS,
+  _GAMER,
+  _TOUHOU,
+  _LOWER,
+  _RAISE,
+  _ADJUST
+};
+
+enum custom_keycodes {
+  KC_CLMK = SAFE_RANGE,
+  KC_HMOD,
+};
 
 #define L_QWERTY 0
-#define L_COLEMAK 2
-#define L_GAMER 4
-#define L_TOUHOU 8
-#define L_LOWER 16
-#define L_RAISE 32
-#define L_ADJUST 64
+#define L_HMODS 2
+#define L_COLEMAK 4
+#define L_GAMER 16
+#define L_TOUHOU 32
+#define L_LOWER 64
+#define L_RAISE 128
+#define L_ADJUST 256
 
-// enum custom_keycodes {
-//   QWERTY = SAFE_RANGE,
-//   LOWER,
-//   RAISE,
-//   ADJUST,
-// };
-
-#define KC_LOWR TT(_LOWER)
-#define KC_RASE TT(_RAISE)
+#define KC_LOWR MO(_LOWER)
+#define KC_RASE MO(_RAISE)
 #define KC_ADJS MO(_ADJUST)
 #define KC_V_V_ KC_TRNS
 #define V_V_V_V KC_TRNS
@@ -57,28 +60,66 @@ extern uint8_t is_master;
 #define KC_FBRN A(S(KC_DOWN))
 #define KC_FBPL A(S(KC_ENT))
 
+// QWERTY Homerow Mods
+#define KC_LG_A MT(MOD_LGUI, KC_A)
+#define KC_LA_S MT(MOD_LALT, KC_S)
+#define KC_LC_D MT(MOD_LCTL, KC_D)
+#define KC_LS_F MT(MOD_LSFT, KC_F)
+#define KC_RS_J MT(MOD_RSFT, KC_J)
+#define KC_RC_K MT(MOD_RCTL, KC_K)
+#define KC_RA_L MT(MOD_RALT, KC_L)
+#define KC_RGSC MT(MOD_RGUI, KC_SCLN)
+
+// Colemak Homerow Mods
+#define KC_LA_R MT(MOD_LALT, KC_R)
+#define KC_LC_S MT(MOD_LCTL, KC_S)
+#define KC_LS_T MT(MOD_LSFT, KC_T)
+#define KC_RS_N MT(MOD_RSFT, KC_N)
+#define KC_RC_E MT(MOD_RCTL, KC_E)
+#define KC_RA_I MT(MOD_RALT, KC_I)
+#define KC_RG_O MT(MOD_RGUI, KC_O)
+
+// RSTHD Homerow Mods
+#define KC_LG_R MT(MOD_LGUI, KC_R)
+#define KC_LC_T MT(MOD_LCTL, KC_T)
+#define KC_LS_H MT(MOD_LSFT, KC_H)
+#define KC_RS_N MT(MOD_RSFT, KC_N)
+#define KC_RC_A MT(MOD_RCTL, KC_A)
+
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
-
-enum custom_keycodes {
-  ALT_TAB = SAFE_RANGE,
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT( \
     KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV,  \
-    KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
+    KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,  \
     KC_LCTRL, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-    KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,    KC_MUTE,  KC_ASTG, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,  \
+    KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,    KC_MUTE,  KC_HMOD, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,  \
                             C(KC_PGUP), KC_LALT, KC_LOWR, KC_BSPC,  KC_SPC,  KC_RASE, KC_LGUI, C(KC_PGDN) \
+),
+
+[_QWERTY_MODS] = LAYOUT( \
+    _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
+    _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
+    _______, KC_LG_A, KC_LA_S, KC_LC_D, KC_LS_F, _______,                    _______, KC_RS_J, KC_RC_K, KC_RA_L, KC_RGSC, _______, \
+    _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______, _______, \
+                               _______, _______, _______, _______,  _______, _______, _______, _______ \
 ),
 
 [_COLEMAK] = LAYOUT( \
     _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
     _______, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, _______, \
     _______, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                       KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    _______, \
-    _______, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    _______,  _______, KC_K,    KC_H,    _______, _______, _______, _______, \
+    _______, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    _______,  _______, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, _______, \
+                               _______, _______, _______, _______,  _______, _______, _______, _______ \
+),
+
+[_COLEMAK_MODS] = LAYOUT( \
+    _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
+    _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
+    _______, KC_LG_A, KC_LA_R, KC_LC_S, KC_LS_T, _______,                    _______, KC_RS_N, KC_RC_E, KC_RA_I, KC_RG_O, _______, \
+    _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______, _______, \
                                _______, _______, _______, _______,  _______, _______, _______, _______ \
 ),
 
@@ -86,7 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
     _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
     _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______, \
-    _______, _______, _______, _______, _______, _______, _______,  TG_GAME, _______, _______, _______, _______, _______, _______, \
+    _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______, _______, \
                                _______, _______, _______, KC_SPC,   _______, _______, _______, _______ \
 ),
 
@@ -108,37 +149,81 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE] = LAYOUT( \
     _______, _______, _______, _______, _______, _______,                    KC_NLCK, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, KC_PSCR, \
-    _______, _______, _______, KC_FBVU, KC_FBPL, KC_LBRC,                    KC_RBRC, KC_P4,   KC_P5,   KC_P6,   KC_PAST, _______, \
-    _______, KC_FBRN, KC_FBPR, KC_FBVD, KC_FBNX, KC_LPRN,                    KC_RPRN, KC_P1,   KC_P2,   KC_P3,   KC_PMNS, _______, \
-    _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, _______,  _______, KC_INS,  KC_P0,   KC_P0,   KC_PDOT, KC_PPLS, KC_PENT, \
+    _______, KC_WH_U, KC_BTN1, KC_MS_U, KC_BTN2, KC_BTN3,                    _______, KC_P4,   KC_P5,   KC_P6,   KC_PAST, _______, \
+    _______, KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN5,                    _______, KC_P1,   KC_P2,   KC_P3,   KC_PMNS, _______, \
+    _______, _______, KC_WH_L, _______, KC_WH_R, KC_BTN4, _______,  _______, KC_INS,  KC_P0,   KC_P0,   KC_PDOT, KC_PPLS, KC_PENT, \
                                _______, _______, KC_ADJS, KC_DEL,   _______, TG(_RAISE), _______, _______ \
 ),
 
 [_ADJUST] = LAYOUT( \
     RESET,   DEBUG,   _______, _______, _______, _______,                    KC_ASRP, _______, _______, _______, _______, _______, \
-    VLK_TOG, _______, _______, _______, _______, _______,                    KC_ASUP, _______, _______, _______, _______, _______, \
-    RGB_TOG, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI,  BL_INC,                    KC_ASTG, TG_CLMK, TG_GAME, TG_TOHO, _______, _______, \
-    BL_TOGG, RGB_RMOD,RGB_HUD, RGB_SAD, RGB_VAD,  BL_DEC, _______,  KC_ASRP, KC_ASDN, _______, _______, _______, _______, _______, \
+    _______, _______, _______, KC_FBVU, KC_FBPL, KC_VOLU,                    KC_ASUP, _______, _______, _______, _______, _______, \
+    _______, KC_FBRN, KC_FBPR, KC_FBVD, KC_FBNX, KC_VOLD,                    KC_ASTG, KC_CLMK, TG_GAME, TG_TOHO, _______, _______, \
+    _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, _______,  _______, KC_ASDN, _______, _______, _______, _______, _______, \
                                _______, _______, V_V_V_V, _______,  _______, V_V_V_V, _______, _______ \
 )
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case ALT_TAB:
-            if (record->event.pressed) {
-                if (!is_alt_tab_active) {
-                    is_alt_tab_active = true;
-                    register_code(KC_LALT);
+    if (record->event.pressed) {
+        switch (keycode) {
+            case KC_CLMK:
+                // turn off any other active typing layers first
+                if (IS_LAYER_ON(_COLEMAK)) { // toggle off
+                    layer_off(_COLEMAK);
+                    layer_off(_COLEMAK_MODS);
                 }
-                alt_tab_timer = timer_read();
-                register_code(KC_TAB);
-            } else {
-                unregister_code(KC_TAB);
-            }
-            break;
+                else { // toggle on
+                    if (IS_LAYER_ON(_QWERTY_MODS)) { // set homerow mods as needed
+                        layer_on(_COLEMAK_MODS);
+                    }
+                    layer_on(_COLEMAK);
+                }
+                return false;
+            // Toggle homerow mods, regardless of the current layout.
+            case KC_HMOD:
+                if (IS_LAYER_ON(_QWERTY_MODS)) { // toggle off
+                    layer_off(_QWERTY_MODS);
+                    layer_off(_COLEMAK_MODS);
+                }
+                else { // toggle on
+                    layer_on(_QWERTY_MODS);
+                    // determine current active typing layer, turn on mods for that layer
+                    if (IS_LAYER_ON(_COLEMAK)) {
+                        layer_on(_COLEMAK_MODS);
+                    }
+                }
+                return false;
+        }
     }
-  return true;
+    return true;
+}
+
+// Custom tapping term per key!
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    // Homerow mods
+    case MT(MOD_LGUI, KC_A):
+    case MT(MOD_LALT, KC_S):
+    case MT(MOD_LCTL, KC_D):
+    case MT(MOD_RCTL, KC_K):
+    case MT(MOD_RALT, KC_L):
+    case MT(MOD_RGUI, KC_SCLN):
+    case MT(MOD_LALT, KC_R):
+    case MT(MOD_LCTL, KC_S):
+    case MT(MOD_RCTL, KC_E):
+    case MT(MOD_RALT, KC_I):
+    case MT(MOD_RGUI, KC_O):
+      return 175;
+    // Shift
+    case MT(MOD_LSFT, KC_F):
+    case MT(MOD_RSFT, KC_J):
+    case MT(MOD_LSFT, KC_T):
+    case MT(MOD_RSFT, KC_N):
+      return 125;
+    default:
+      return TAPPING_TERM;
+  }
 }
 
 int RGB_current_mode;
@@ -181,9 +266,19 @@ void write_autoshift_state(void) {
     }
 }
 
+char hmods_state_str[11];
+
+void write_hmods_state(void) {
+    if (layer_state & L_HMODS) {
+        snprintf(hmods_state_str, sizeof(hmods_state_str), "H-RowMods ");
+        oled_write_ln(hmods_state_str, false);
+    } else {
+        skipped_lines += 3;
+    }
+}
+
 char layer_state_str[6];
 
-// When add source files to SRC in rules.mk, you can use functions.
 void write_layer_state(void) {
     if (layer_state & L_ADJUST) {
         snprintf(layer_state_str, sizeof(layer_state_str), "Adj. ");
@@ -216,8 +311,9 @@ void write_base_state(void) {
 
     oled_write_ln(layer_base_str, false);
 }
+
 const char *read_logo(void);
-void set_keylog(uint16_t keycode, keyrecord_t *record);
+
 // const char *read_keylog(void);
 // const char *read_keylogs(void);
 
@@ -264,6 +360,7 @@ void oled_task_user(void) {
         // oled_write_raw_P(touhou, sizeof(touhou));
         // oled_set_cursor(0, 4);
         skipped_lines = 0;
+        write_hmods_state();
         write_autoshift_state();
         write_base_state();
         write_layer_state();
@@ -294,9 +391,6 @@ void encoder_update_user(uint8_t index, bool clockwise) {
                 clockwise ? tap_code16(KC_TAB) : tap_code16(S(KC_TAB));
                 alt_tab_timer = timer_read();
                 break;
-            // default:
-            //     clockwise ? tap_code(KC_1) : tap_code(KC_2);
-            //     break;
         }
     }
 }
