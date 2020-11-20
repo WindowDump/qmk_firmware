@@ -34,6 +34,9 @@ enum custom_keycodes {
   WNDW_8,
   WNDW_9,
   WNDW_0,
+  QCK_TAB,
+  QCKSTAB,
+  QCK_SEL,
 };
 
 #define V_V_V_V KC_TRNS
@@ -44,8 +47,12 @@ enum custom_keycodes {
 #define KC_ADJS MO(_ADJUST)
 #define KC_GLWR MO(_GLOWER)
 #define MT_CTAB MT(MOD_LCTL, KC_TAB)
+#define LT_LWRE LT(_LOWER, KC_E)
+
 #define KC_NMBS LT(_NUMBERS, KC_BSPC)
 #define KC_NVSP LT(_NAV, KC_SPC)
+#define KC_NMSP LT(_NUMBERS, KC_SPC)
+#define KC_NAV  MO(_NAV)
 
 #define TG_GAME TG(_GAMER)
 #define TG_GAM2 TG(_GAMER2)
@@ -90,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
   MT_CTAB, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-  KC_NMBS, KC_LCTL, KC_LGUI, KC_LALT, KC_LOWR,     KC_NVSP,       KC_RASE, KC_LGUI, KC_DOWN, KC_UP,   KC_RGHT
+  KC_NAV,  KC_LCTL, KC_LGUI, KC_LALT, KC_LOWR,     KC_NMSP,      KC_RASE, KC_LGUI, QCKSTAB, QCK_SEL, QCK_TAB
 ),
 
 [_QWERTY_MODS] = LAYOUT(
@@ -119,7 +126,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, KC_J,    KC_C,    KC_Y,    KC_F,    KC_K,    KC_Z,    KC_L,    KC_COMM, KC_U,    KC_Q,    _______,
   _______, KC_R,    KC_S,    KC_T,    KC_H,    KC_D,    KC_M,    KC_N,    KC_A,    KC_I,    KC_O,    KC_QUOT,
   _______, KC_SLSH, KC_V,    KC_G,    KC_P,    KC_B,    KC_X,    KC_W,    KC_DOT,  KC_SCLN, KC_MINS, _______,
-  _______, _______, _______, _______, _______,     _______,      _______, _______, _______, _______, _______
+  _______, _______, _______, _______, LT_LWRE,     _______,      _______, _______, _______, _______, _______
 ),
 
 [_RSTHD_MODS] = LAYOUT(
@@ -133,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BSPC,
   KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, KC_GLWR,     KC_SPC,       _______, _______, _______, _______, MO(_NAV)
+  _______, _______, _______, _______, KC_GLWR,     KC_SPC,       _______, _______, _______, _______, _______
 ),
 
 [_GAMER2] = LAYOUT(
@@ -154,14 +161,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PSCR,
   _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_F12,
   _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-  V_V_V_V, _______, _______, _______, _______,     _______,      _______, _______, _______, _______, _______
+  _______, _______, _______, _______, _______,     _______,      _______, _______, _______, _______, _______
 ),
 
 [_NAV] = LAYOUT(
-  _______, KC_PGUP, KC_HOME, KC_UP,   KC_END,  ALT_TAB, ALT_TAB, WNDW_7,  WNDW_8,  WNDW_9,  WNDW_0,  _______,
-  _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, SALTTAB, SALTTAB, WNDW_4,  WNDW_5,  WNDW_6,  _______, _______,
+  _______, KC_PGUP, KC_HOME, KC_UP,   KC_END,  ALT_TAB, SALTTAB, WNDW_7,  WNDW_8,  WNDW_9,  WNDW_0,  _______,
+  _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, SALTTAB, ALT_TAB, WNDW_4,  WNDW_5,  WNDW_6,  _______, _______,
   _______, _______, C(KC_PGUP), _______, C(KC_PGDN), _______, _______, WNDW_1,  WNDW_2,  WNDW_3,  _______, _______,
-  _______, _______, _______, _______, _______,     V_V_V_V,      _______, _______, _______, _______, V_V_V_V
+  _______, _______, _______, _______, _______,     _______,      _______, _______, _______, _______, V_V_V_V
 ),
 
 [_GLOWER] = LAYOUT( // Gamer Lower
@@ -186,7 +193,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_ADJUST] = LAYOUT(
-  RESET,   _______, _______, KC_FBVU, KC_FBPL, KC_VOLU, _______, TG_RSTH, _______, RGB_HUI, RGB_HUD, KC_PSCR,
+  RESET,   _______, _______, KC_FBVU, KC_FBPL, KC_VOLU, _______, TG_RSTH, TG_GAM2, RGB_HUD, RGB_HUI, KC_PSCR,
   _______, KC_FBRN, KC_FBPR, KC_FBVD, KC_FBNX, KC_VOLD, HR_MODS, TG_CLMK, TG_GAME, TG_TOHO, NK_TOGG, A(KC_PSCR),
   _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, _______, RGB_TOG, RGB_MOD, RGB_VAI, RGB_VAD, _______,
   _______, _______, _______, _______, V_V_V_V,     _______,      V_V_V_V, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R
@@ -195,10 +202,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool is_win_switch_active = false;
 bool is_alt_tab_active = false;
+bool is_quick_tab_active = false;
+uint16_t quick_tab_timer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     if (keycode >= WNDW_1 && keycode <= WNDW_0) {
+      if (is_alt_tab_active) {
+          unregister_code(KC_LALT);
+          is_alt_tab_active = false;
+      }
       if (!is_win_switch_active) {
         is_win_switch_active = true;
         register_code(KC_LGUI);
@@ -240,11 +253,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
       case ALT_TAB:
       case SALTTAB:
+        if (is_win_switch_active) {
+          is_win_switch_active = false;
+          unregister_code(KC_LGUI);
+        }
         if (!is_alt_tab_active) {
-            is_alt_tab_active = true;
-            register_code(KC_LALT);
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
         }
         keycode == ALT_TAB ? tap_code16(KC_TAB) : tap_code16(S(KC_TAB));
+        quick_tab_timer = timer_read();
+        return false;
+      case QCK_TAB:
+      case QCKSTAB:
+        if (!is_quick_tab_active) {
+          is_quick_tab_active = true;
+          register_code(KC_LALT);
+        }
+        keycode == QCK_TAB ? tap_code16(KC_TAB) : tap_code16(S(KC_TAB));
+        quick_tab_timer = timer_read();
+        return false;
+      case QCK_SEL:
+        if (is_quick_tab_active) {
+          is_quick_tab_active = false;
+          unregister_code(KC_LALT);
+        }
         return false;
       case TG_CLMK:
         // turn off any other active typing layers first
@@ -307,6 +340,10 @@ void matrix_scan_user(void) {
     unregister_code(KC_LALT);
     is_alt_tab_active = false;
   }
+  if (is_quick_tab_active && timer_elapsed(quick_tab_timer) > 1000) {
+    unregister_code(KC_LALT);
+    is_quick_tab_active = false;
+  }
 }
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -331,8 +368,13 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case MT(MOD_LSFT, KC_T):
     case MT(MOD_RSFT, KC_N):
     case MT(MOD_LSFT, KC_H):
-    case MT(MOD_LCTL, KC_TAB):
       return 125;
+    case MT_CTAB:
+    case LT_LWRE:
+    case KC_NMBS:
+    case KC_NVSP:
+    case KC_NMSP:
+      return 175;
     default:
       return TAPPING_TERM;
   }

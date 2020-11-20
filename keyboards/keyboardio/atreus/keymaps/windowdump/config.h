@@ -1,8 +1,6 @@
-#pragma once
+// Tweak firmware settings to my exacting standards
 
-#include "config_common.h"
-
-// Tapping settings (homerow mods, etc)
+// Homerow Mods
 #define TAPPING_TERM 200
 #define TAPPING_TOGGLE 2
 #define TAPPING_TERM_PER_KEY
@@ -10,7 +8,7 @@
 #define TAPPING_FORCE_HOLD
 #undef  PERMISSIVE_HOLD
 
-// Mousekey Settings
+// Mouse Keys
 #define MOUSEKEY_DELAY 25
 #define MOUSEKEY_INTERVAL 10
 #define MOUSEKEY_MAX_SPEED 5
@@ -20,5 +18,8 @@
 // Ricing
 #define USB_POLLING_INTERVAL_MS 2
 #define QMK_KEYS_PER_SCAN 4
-#undef RGBLIGHT_HUE_STEP
-#define RGBLIGHT_HUE_STEP 4
+#undef COMBO_COUNT
+#define COMBO_COUNT 5
+#define COMBO_TERM 75
+
+// yeah that seems good enough
