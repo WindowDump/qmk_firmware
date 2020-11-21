@@ -21,6 +21,11 @@ QUANTUM_SRC += \
     $(QUANTUM_DIR)/keymap_common.c \
     $(QUANTUM_DIR)/keycode_config.c
 
+ifeq ($(strip $(DEBUG_MATRIX_SCAN_RATE_ENABLE)), yes)
+    OPT_DEFS += -DDEBUG_MATRIX_SCAN_RATE
+    CONSOLE_ENABLE = yes
+endif
+
 ifeq ($(strip $(API_SYSEX_ENABLE)), yes)
     OPT_DEFS += -DAPI_SYSEX_ENABLE
     OPT_DEFS += -DAPI_ENABLE
@@ -37,6 +42,13 @@ ifeq ($(strip $(AUDIO_ENABLE)), yes)
     SRC += $(QUANTUM_DIR)/audio/audio_$(PLATFORM_KEY).c
     SRC += $(QUANTUM_DIR)/audio/voices.c
     SRC += $(QUANTUM_DIR)/audio/luts.c
+endif
+
+ifeq ($(strip $(SEQUENCER_ENABLE)), yes)
+    OPT_DEFS += -DSEQUENCER_ENABLE
+    MUSIC_ENABLE = yes
+    SRC += $(QUANTUM_DIR)/sequencer/sequencer.c
+    SRC += $(QUANTUM_DIR)/process_keycode/process_sequencer.c
 endif
 
 ifeq ($(strip $(MIDI_ENABLE)), yes)
@@ -444,11 +456,14 @@ ifeq ($(strip $(SPLIT_KEYBOARD)), yes)
         # Functions added via QUANTUM_LIB_SRC are only included in the final binary if they're called.
         # Unused functions are pruned away, which is why we can add multiple drivers here without bloat.
         ifeq ($(PLATFORM),AVR)
-            QUANTUM_LIB_SRC += i2c_master.c \
-                               i2c_slave.c
+            ifneq ($(NO_I2C),yes)
+                QUANTUM_LIB_SRC += i2c_master.c \
+                                   i2c_slave.c
+            endif
         endif
 
         SERIAL_DRIVER ?= bitbang
+        OPT_DEFS += -DSERIAL_DRIVER_$(strip $(shell echo $(SERIAL_DRIVER) | tr '[:lower:]' '[:upper:]'))
         ifeq ($(strip $(SERIAL_DRIVER)), bitbang)
             QUANTUM_LIB_SRC += serial.c
         else
