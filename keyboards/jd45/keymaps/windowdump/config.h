@@ -19,6 +19,10 @@
 // Ricing
 #define USB_POLLING_INTERVAL_MS 2
 #define QMK_KEYS_PER_SCAN 4
-#define COMBO_TERM 30
+
+// Encoders
+#define ENCODERS_PAD_A { F6, D3, B2 }
+#define ENCODERS_PAD_B { F7, B1, B3 }
+#define ENCODER_RESOLUTION 4
 
 // yeah that seems good enough
