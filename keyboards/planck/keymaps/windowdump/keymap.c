@@ -20,7 +20,8 @@ enum planck_layers {
   _GLOWER,
   _LOWER,
   _RAISE,
-  _ADJUST
+  _ADJUST,
+  _JAM
 };
 
 enum planck_keycodes {
@@ -62,6 +63,7 @@ enum planck_keycodes {
 #define TG_GAME TG(_GAMER)
 #define TG_GAM2 TG(_GAMER2)
 #define TG_TOHO TG(_TOUHOU)
+#define TG_JAM  TG(_JAM)
 
 #define CUT C(KC_X)
 #define COPY C(KC_C)
@@ -109,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
     MT_CTAB, KC_LG_A, KC_LA_S, KC_LC_D, KC_LS_F, KC_G,    KC_H,    KC_RS_J, KC_RC_K, KC_RA_L, KC_RGSC, KC_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-    KC_NAV,  KC_LGUI, KC_LALT, LOWER,        KC_NMBS,          KC_NVSP,     RAISE,   KC_LGUI, KC_DOWN, KC_UP
+    KC_NAV,  KC_NUMS, KC_LALT, LOWER,        KC_NMBS,          KC_NVSP,     RAISE,   KC_LGUI, KC_NAV,  KC_NUMS
 ),
 
 [_QWERTY_MODS] = LAYOUT_planck_2x2u(
@@ -176,8 +178,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_NAV] = LAYOUT_planck_2x2u(
-    _______, KC_PGUP, KC_HOME, KC_UP,   KC_END,  SALTTAB, SALTTAB, WNDW_7,  WNDW_8,  WNDW_9,  WNDW_0,  _______,
-    _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, ALT_TAB, ALT_TAB, WNDW_4,  WNDW_5,  WNDW_6,  _______, _______,
+    SALTTAB, KC_PGUP, KC_HOME, KC_UP,   KC_END,  SALTTAB, SALTTAB, WNDW_7,  WNDW_8,  WNDW_9,  WNDW_0,  _______,
+    ALT_TAB, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, ALT_TAB, ALT_TAB, WNDW_4,  WNDW_5,  WNDW_6,  _______, _______,
     _______, _______, PRV_TAB, _______, NXT_TAB, _______, _______, WNDW_1,  WNDW_2,  WNDW_3,  _______, _______,
     _______, _______, _______, _______,     _______,          V_V_V_V,      _______, _______, _______, _______
 ),
@@ -190,8 +192,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_LOWER] = LAYOUT_planck_2x2u(
-    KC_GRV,  KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_LBRC, KC_RBRC, KC_UNDS, KC_PLUS, KC_TILD, KC_RBRC, KC_DEL,
-    _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL,  KC_GRV,  KC_LBRC, KC_BSLS,
+    KC_GRV,  KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_LBRC, KC_RBRC, KC_UNDS, KC_PLUS, KC_TILD, KC_PIPE, KC_LBRC,
+    _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL,  KC_GRV,  KC_BSLS, KC_RBRC,
     _______, UNDO,    CUT,     COPY,    PASTE,   KC_LCBR, KC_RCBR, _______, _______, _______, _______, _______,
     _______, _______, _______, V_V_V_V,     _______,          _______,      KC_ADJS, _______, _______, _______
 ),
@@ -205,10 +207,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_ADJUST] = LAYOUT_planck_2x2u(
     RESET,   _______, _______, KC_FBVU, KC_FBPL, KC_VOLU, AU_TOG,  TG_HNDS, TG_GAM2, _______, CK_TOGG, KC_PSCR,
-    DEBUG,   KC_FBRN, KC_FBPR, KC_FBVD, KC_FBNX, KC_VOLD, HR_MODS, TG_CLMK, TG_GAME, TG_TOHO, MU_TOG,  A(KC_PSCR),
-    NK_TOGG, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, _______, TG_QWER, GAMEOVR, _______, MU_MOD,  MU_MOD,
-    CK_DOWN, CK_UP,   _______, V_V_V_V,     _______,          _______,      V_V_V_V, _______, MUV_DE,  MUV_IN
-)
+    DEBUG,   KC_FBRN, KC_FBPR, KC_FBVD, KC_FBNX, KC_VOLD, HR_MODS, TG_CLMK, TG_GAME, TG_TOHO, TG_JAM,  A(KC_PSCR),
+    NK_TOGG, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, _______, TG_QWER, GAMEOVR, _______, _______, _______,
+    CK_DOWN, CK_UP,   _______, V_V_V_V,     _______,          _______,      V_V_V_V, _______, _______, _______
+),
+
+[_JAM] = LAYOUT_planck_2x2u( // JAM ON IT
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    TG_JAM,  KC_LCTL, KC_LALT, KC_LGUI,     KC_DOWN,          KC_UP,        MUV_DE,  MUV_IN,  MU_MOD,  MU_TOG
+),
 
 };
 
@@ -413,19 +422,19 @@ void dip_switch_update_user(uint8_t index, bool active) {
 }
 
 void matrix_scan_user(void) {
-  // End fancy nav switching if the NAV layer has been deactivated.
-  if (is_win_switch_active && !IS_LAYER_ON(_NAV)) {
-    unregister_code(KC_LGUI);
-    is_win_switch_active = false;
-  }
-  if (is_alt_tab_active && !IS_LAYER_ON(_NAV)) {
-    unregister_code(KC_LALT);
-    is_alt_tab_active = false;
-  }
-  if (is_tab_switch_active && !IS_LAYER_ON(_NAV)) {
-    unregister_code(KC_LCTL);
-    is_tab_switch_active = false;
-  }
+    // End fancy nav switching if the NAV layer has been deactivated.
+    if (is_win_switch_active && !IS_LAYER_ON(_NAV)) {
+        unregister_code(KC_LGUI);
+        is_win_switch_active = false;
+    }
+    if (is_alt_tab_active && !IS_LAYER_ON(_NAV)) {
+        unregister_code(KC_LALT);
+        is_alt_tab_active = false;
+    }
+    if (is_tab_switch_active && !IS_LAYER_ON(_NAV)) {
+        unregister_code(KC_LCTL);
+        is_tab_switch_active = false;
+    }
 #ifdef AUDIO_ENABLE
     if (muse_mode) {
         if (muse_counter == 0) {
