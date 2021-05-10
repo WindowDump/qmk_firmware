@@ -1,0 +1,5 @@
+USER_NAME := windowdump
+
+AUTO_SHIFT_ENABLE = no
+OLED_DRIVER_ENABLE = no
+RGBLIGHT_ENABLE = no
