@@ -1,3 +1,1 @@
-LTO_ENABLE = yes
-CONSOLE_ENABLE = no
 COMBO_ENABLE = yes

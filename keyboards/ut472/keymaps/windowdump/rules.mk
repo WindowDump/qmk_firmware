@@ -1,1 +1,1 @@
-LTO_ENABLE = yes
+QUICK_SWITCH = yes
