@@ -80,6 +80,7 @@ enum userspace_custom_keycodes {
 #define MT_CTAB MT(MOD_LCTL, KC_TAB)
 #define KC_NAV MO(_NAV)
 #define KC_NUMS MO(_NUMBERS)
+#define KC_NVBS LT(_NAV, KC_BSPC)
 
 #define TG_GAME TG(_GAMER)
 #define TG_GAM2 TG(_GAMER2)
@@ -97,6 +98,7 @@ enum userspace_custom_keycodes {
 #define PASTE C(KC_V)
 #define UNDO C(KC_Z)
 #define REDO C(KC_Y)
+#define CUR_WIN A(KC_PSCR)
 
 // FB2K hotkeys
 #define KC_FBVU A(S(KC_EQL))
