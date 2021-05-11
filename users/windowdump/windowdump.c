@@ -357,7 +357,6 @@ combo_t key_combos[] = {
   [QJ_DEL] = COMBO(qj_combo, KC_DEL),
   [AO_SCLN] = COMBO(ao_combo, KC_SCLN),
   [AO_HR_SCLN] = COMBO(ao_hr_combo, KC_SCLN),
-  [CD_ENT] = COMBO(cd_combo, KC_ENT),
-  COMBO_LENGTH
+  [CD_ENT] = COMBO(cd_combo, KC_ENT)
 };
 #endif // COMBO_ENABLE
