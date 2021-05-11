@@ -5,6 +5,13 @@ This is a fork of the official QMK firmware. For documentation and build informa
 # My Keymaps
 
 This is what you're actually here for.
+# THIS IS THE DEVELOP BRANCH
+
+Warning- This is the `develop` branch of QMK Firmware. You may encounter broken code here. Please see [Breaking Changes](https://docs.qmk.fm/#/breaking_changes) for more information.
+
+# Original readme continues
+
+## Documentation
 
 ## Corne Choc (No OLED's)
 
