@@ -257,6 +257,39 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 // need to remember to define all of the layers involved
 void oled_render_layer_state(void) {
     uint8_t skipped_lines = 0;
+#ifdef OLED_DISPLAY_128X64
+    if (layer_state & L_COLEMAK) {
+        oled_write_P(PSTR("Colemak DH"), false);
+    } else if (layer_state & L_HANDSDOWN) {
+        oled_write_P(PSTR("Hands Down"), false);
+    } else {
+        oled_write_ln_P(PSTR("QWERTY"), false);
+    }
+
+    (layer_state & L_QWERTY_MODS) ? skipped_lines++ : oled_write_ln_P(PSTR("H-Row Mods"), false);
+
+    oled_advance_page(true);
+
+    (layer_state & L_GAMER) ? oled_write_ln_P(PSTR("GAMER"), false) : skipped_lines++;
+    (layer_state & L_GAMER2) ? oled_write_ln_P(PSTR("Left Spc."), false) : skipped_lines++;
+    (layer_state & L_TOUHOU) ? oled_write_ln_P(PSTR("Touhou"), false) : skipped_lines++;
+    
+    if (layer_state & L_ADJUST) {
+        oled_write_ln_P(PSTR("Adjust"), false);
+    } else if (layer_state & L_RAISE) {
+        oled_write_ln_P(PSTR("Raise"), false);
+    } else if (layer_state & L_LOWER) {
+        oled_write_ln_P(PSTR("Lower"), false);
+    } else if (layer_state & L_GLOWER) {
+        oled_write_ln_P(PSTR("Lower"), false);
+    } else if (layer_state & L_NAV) {
+        oled_write_P(PSTR("Navigation"), false);
+    } else if (layer_state & L_NUMBERS) {
+        oled_write_ln_P(PSTR("Numbers"), false);
+    } else {
+        skipped_lines++;
+    }
+#else
     if (layer_state & L_COLEMAK) {
         oled_write_P(PSTR("Colmk"), false);
     } else if (layer_state & L_HANDSDOWN) {
@@ -297,6 +330,7 @@ void oled_render_layer_state(void) {
     } else {
         skipped_lines++;
     }
+#endif
 
     for (uint8_t i = 0; i < skipped_lines; i++) {
         oled_advance_page(true);

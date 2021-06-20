@@ -204,7 +204,7 @@ enum userspace_custom_keycodes {
 // Raise
 #define _________________RAISE_L1__________________        KC_WH_U, KC_BTN1, KC_MS_U, KC_BTN2, KC_BTN3
 #define _________________RAISE_L2__________________        KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN5
-#define _________________RAISE_L3__________________        _______, KC_WH_L, _______, KC_WH_R, KC_BTN4
+#define _________________RAISE_L3__________________        KC_RSFT, KC_WH_L, _______, KC_WH_R, KC_BTN4
 
 #define _________________RAISE_R1__________________        KC_INS,  KC_7,    KC_8,    KC_9,    KC_PSLS
 #define _________________RAISE_R2__________________        _______, KC_4,    KC_5,    KC_6,    KC_PMNS
